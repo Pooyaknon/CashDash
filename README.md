@@ -1,16 +1,23 @@
-# React + Vite
+# 💰 CashDash - Smart Expenses & Budget Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**CashDash** คือระบบจัดการรายรับ-รายจ่ายอัจฉริยะที่ช่วยให้คุณวางแผนการเงินได้อย่างมีประสิทธิภาพ พัฒนาขึ้นภายใต้โครงสร้างที่ทันสมัยและขยายผลได้ง่าย
 
-Currently, two official plugins are available:
+## ✨ Features (Sprint 1-2)
+- **Authentication System:** ระบบสมัครสมาชิกและเข้าสู่ระบบผ่านอีเมล
+- **Personal Profiles:** เก็บข้อมูลผู้ใช้งานแยกส่วนบุคคลด้วย Supabase Profiles
+- **Real-time Balance:** แสดงยอดเงินคงเหลือปัจจุบันพร้อมดีไซน์ที่ชัดเจน
+- **Transaction History:** ระบบบันทึกและแสดงรายการธุรกรรม (Income/Expense)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠 Tech Stack
+- **Frontend:** React.js + Vite
+- **Styling:** Tailwind CSS
+- **Backend/Database:** Supabase
+- **Email Service:** Resend (Custom SMTP)
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📂 Project Structure
+```text
+src/
+├── components/   # ส่วนประกอบย่อย (UI Components)
+├── pages/        # หน้าหลัก (Home, Login, SignUp, etc.)
+├── services/     # การเชื่อมต่อ Supabase & Auth
+└── styles/       # ไฟล์ CSS & Tailwind
