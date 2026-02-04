@@ -27,11 +27,7 @@ function Login() {
     <div className="min-h-screen flex items-center justify-center bg-[#E9F5FF]">
       {/* Card for login */}
       <div className="max-w-md w-full p-12 flex flex-col items-center">
-        <img
-            src={logo}
-            alt="CashDash Logo"
-            className="w-[120px] h-[120px] mx-auto mb-4"
-          />
+        <img src={logo} alt="CashDash Logo" className="w-[120px] h-[120px] mx-auto mb-4"/>
         {/* Name of web */}
         <div className="text-center mb-2 ">
           <h1 className="font-lilita text-[55px] text-[#295F8D]">
@@ -71,7 +67,7 @@ function Login() {
               className="w-full py-0.5 bg-[#295F8D] rounded-[14px] font-lilita text-white text-[35px]
                         hover:bg-indigo-600 transition disabled:bg-gray-400 shadow-figma"
             >
-              {loading ? 'Logging in...' : 'LOG IN'}
+              {loading ? 'Logging in...' : 'LOGIN'}
             </button>
           </div>
         </form>
