@@ -21,9 +21,9 @@ function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#D1E9FF] p-4">
       <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
-        <h2 className="text-2xl font-bold text-center text-indigo-600 mb-6">Forgot Password</h2>
+        <h2 className="text-[40px] font-bold text-center text-[#295F8D] font-lilita mb-6">Forgot Password</h2>
         
         {message ? (
           <div className="text-center">
@@ -45,7 +45,7 @@ function ForgotPassword() {
             <button 
               type="submit" 
               disabled={loading}
-              className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition disabled:bg-gray-400"
+              className="w-full bg-[#295F8D] text-white py-2 rounded-lg hover:bg-indigo-700 transition disabled:bg-gray-400"
             >
               {loading ? 'Sending...' : 'Send Reset Link'}
             </button>
