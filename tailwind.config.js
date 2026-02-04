@@ -6,6 +6,9 @@ export default {
       fontFamily: {
         lilita: ['"Lilita One"', "cursive"],
       },
+      boxShadow: {
+        figma: '0px 4px 4px 0px #00000040',
+      },
     },
   },
   plugins: [],
