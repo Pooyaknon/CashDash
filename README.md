@@ -48,3 +48,4 @@ npm run dev
 ### คำแนะนำ:
 * **Database Awareness:** การแก้ไขข้อมูลผ่าน Supabase Dashboard จะส่งผลถึงทุกคนในทีม
 * **Branching Reminder:** แนะนำให้ Checkout ไปยัง Branch ที่แบ่งตามฟีเจอร์ เช่น `feat/fe-...` หรือ `feat/be-...` ก่อนเริ่มเขียนโค้ด
+* **Node version:**ต้องใช้ node version 22.0.0 ขึ้นไป
