@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { authService } from "../services/authService";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import logo from "../assets/logo.png";
 
@@ -9,16 +9,14 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
   const handleSignUp = async (e) => {
     e.preventDefault();
     setLoading(true);
     toast
       .promise(authService.signUp(email, password, username), {
-        loading: "กำลังสมัครสมาชิก...",
-        success: "สมัครสำเร็จ! ตรวจสอบอีเมลของคุณเพื่อยืนยันตัวตนนนนน",
-        error: (err) => err.message || "สมัครไม่สำเร็จ",
+        loading: "Creating your account...",
+        success: "Account created successfully!",
+        error: (err) => err.message || "Sign up failed",
       })
       .then(() => {
         navigate("/login");
@@ -52,13 +50,13 @@ function SignUp() {
             </label>
             <input
               type="text"
-              placeholder="แสดงในหน้า Home"
+              placeholder="Create your username"
               className="input-base"
               onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
-
+          
           <div>
             <label className="font-lilita text-[20px] text-[#7194B3] ml-2">
               Email
@@ -78,7 +76,7 @@ function SignUp() {
             </label>
             <input
               type="password"
-              placeholder="รหัสผ่าน 6 ตัวขึ้นไป"
+              placeholder="At least 6 characters"
               className="input-base"
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -93,7 +91,7 @@ function SignUp() {
               className="w-full py-0.5 bg-[#295F8D] rounded-[14px] font-lilita text-white text-[35px]
                           hover:bg-indigo-600 transition disabled:bg-gray-400 shadow-figma"
             >
-              {loading ? "กำลังสร้างบัญชี..." : "Register"}
+              {loading ? "Almost there..." : "Register"}
             </button>
           </div>
         </form>

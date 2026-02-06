@@ -1,26 +1,33 @@
 import { useState } from 'react'
 import { authService } from '../services/authService'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import toast from "react-hot-toast";
 import logo from '../assets/logo.png'
 
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
-
   const handleLogin = async (e) => {
     e.preventDefault()
     setLoading(true)
-    try {
-      await authService.signIn(email, password)
-      navigate('/home') 
-    } catch (error) {
-      alert('Login failed: ' + error.message)
-    } finally {
-      setLoading(false)
-    }
+
+    toast
+      .promise(
+        authService.signIn(email, password),
+        {
+          success: 'Welcome back!',
+          error: (err) => err.message || 'Login failed',
+        }
+      )
+      .then(() => {
+        navigate('/home')
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
+
 
   return (
     
@@ -58,6 +65,10 @@ function Login() {
               required
             />
           </div>
+          {/* forgot pass */}
+          <p className="text-[14px] text-right">
+            <Link to="/forgot-password" disable className="text-[#295F8D] hover:underline">Forgot password?</Link>
+          </p>
 
           {/* submit btn  */}
           <div className='pt-4'>
@@ -67,7 +78,7 @@ function Login() {
               className="w-full py-0.5 bg-[#295F8D] rounded-[14px] font-lilita text-white text-[35px]
                         hover:bg-indigo-600 transition disabled:bg-gray-400 shadow-figma"
             >
-              {loading ? 'Logging in...' : 'LOGIN'}
+              {loading ? 'Welcome back…' : 'LOGIN'}
             </button>
           </div>
         </form>
@@ -77,9 +88,7 @@ function Login() {
           <p className="text-[15px]">
             Don't have an account? <Link to="/signup" className="text-[#295F8D] hover:underline">Register here</Link>
           </p>
-          <p className="text-[14px]">
-            <Link to="/forgot-password" disable className="text-gray-500 hover:underline">Forgot password?</Link>
-          </p>
+          
         </div>
       </div>
     </div>
