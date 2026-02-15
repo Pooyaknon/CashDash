@@ -1,115 +1,290 @@
-import { useEffect, useState } from 'react'
-import { supabase } from '../services/supabaseClient'
-import { authService } from '../services/authService'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState, useRef } from "react";
+import { supabase } from "../services/supabaseClient";
+import { authService } from "../services/authService";
+import { useNavigate, useLocation } from "react-router-dom";
+import { transactionService } from "../services/transactionService";
+import { ChevronDown, Trash2, ArrowLeft } from "lucide-react";
 
 function Home() {
-  const [username, setUsername] = useState('Loading...')
-  const navigate = useNavigate()
+  const [username, setUsername] = useState("Loading...");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const initialDate =
+    location.state?.date ||
+    new Date().toLocaleDateString("en-CA", {
+      timeZone: "Asia/Bangkok",
+    });
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [date, setDate] = useState(initialDate);
+  const [transactions, setTransactions] = useState([]);
+  const [balance, setBalance] = useState(0);
+  const today = new Date().toLocaleDateString("en-CA", {
+    timeZone: "Asia/Bangkok",
+  });
+  const isToday = date === today;
+  const formatDate = (dateString) => {
+    const options = { day: "2-digit", month: "short", year: "numeric" };
+    return new Date(dateString).toLocaleDateString("en-GB", options);
+  };
+  const dateInputRef = useRef(null);
 
   useEffect(() => {
     async function getProfile() {
-      const { data: { user } } = await supabase.auth.getUser()
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       if (user) {
         const { data, error } = await supabase
-          .from('profiles')
-          .select('username')
-          .eq('id', user.id)
-          .single()
+          .from("profiles")
+          .select("username")
+          .eq("id", user.id)
+          .single();
 
-        if (data) setUsername(data.username)
+        if (data) setUsername(data.username);
       } else {
-        navigate('/login')
+        navigate("/login");
       }
     }
-    getProfile()
-  }, [navigate])
+    getProfile();
+  }, [navigate]);
+
+  useEffect(() => {
+    async function fetchTransactions() {
+      const data = await transactionService.getByDate(date);
+      setTransactions(data);
+      setBalance(transactionService.calculateBalance(data));
+    }
+
+    fetchTransactions();
+  }, [date]);
 
   const handleLogout = async () => {
-    await authService.signOut()
-    navigate('/login')
-  }
+    await authService.signOut();
+    navigate("/login");
+  };
 
   return (
-    <div className="min-h-screen bg-[#D1E9FF] flex flex-col items-center font-sans pb-10">
-      {/* Header Section */}
-      <div className="w-full max-w-md p-6 flex justify-between items-center">
-        <button className="text-[#2D5A8E]">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
+    <div
+      className="min-h-screen flex flex-col items-center gap-10 font-lilita pb-10
+                bg-[radial-gradient(circle_at_center,_#E9F7FF_0%,_#CDEBFF_60%,_#B8E0FF_100%)]"
+    >
+      {/* Overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-30 transition-opacity duration-300"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div
+        className={`fixed top-0 left-0 h-full w-72 sm:w-80 bg-[#E9F5FF] shadow-2xl z-40
+                      transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+                      transition-all duration-300 ease-in-out
+                      flex flex-col items-center pt-20`}
+      >
+        {/* Close Button */}
+        <button
+          onClick={() => setSidebarOpen(false)}
+          className="absolute top-5 right-5 text-2xl"
+        >
+          ✕
         </button>
-        <div className="bg-white rounded-full px-4 py-1 flex items-center shadow-sm border border-gray-100">
-          <span className="text-[#2D5A8E] font-bold text-sm">More Date</span>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1 text-[#2D5A8E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
+
+        {/* User Icon */}
+        <div className="flex flex-col items-center mt-10">
+          <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-white text-4xl border border-[#295F8D]">
+            👤
+          </div>
+
+          <h2 className="mt-6 text-[#295F8D] text-[35px] font-lilita uppercase">
+            {username}
+          </h2>
+        </div>
+
+        {/* Spacer */}
+        <div className="flex-grow" />
+
+        {/* Logout Button */}
+        <button
+          onClick={handleLogout}
+          className="mb-20 px-8 py-0.5 bg-[#E04847] text-white text-[37px] rounded-[14px] font-lilita 
+                      shadow-figma hover:scale-105 transition"
+        >
+          LOG OUT
+        </button>
+      </div>
+
+      {/* Header Section */}
+      <div className="w-full px-4 md:px-10 lg:px-16 pt-8 flex justify-between items-center">
+        {!isToday ? (
+          <button
+            onClick={() => setDate(today)}
+            className="text-[#295F8D] text-[20px] flex items-center gap-2"
+          >
+            <ArrowLeft size={20} />
+            Back to today
+          </button>
+        ) : (
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="text-[#295F8D]"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-10 w-10"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+        )}
+
+        {/* Calendar */}
+        <div className="relative">
+          {/* ปุ่มแสดงผล */}
+          <button
+            onClick={() => dateInputRef.current?.showPicker()}
+            className="bg-white text-[#295F8D] 
+                      px-4 py-1 rounded-xl
+                      font-lilita text-[20px] 
+                      shadow-figma hover:scale-105 
+                      transition flex items-center gap-2"
+          >
+            More Date
+            <ChevronDown size={20} />
+          </button>
+
+          {/* input จริง (ซ่อน) */}
+          <input
+            ref={dateInputRef}
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="absolute inset-0 opacity-0 pointer-events-none"
+          />
         </div>
       </div>
 
-      {/* Welcome Message */}
-      <h2 className="text-[#2D5A8E] font-black text-xl uppercase mb-4">
-        WELCOME, {username}
-      </h2>
-
       {/* Today's Balance Card */}
-      <div className="bg-white rounded-[40px] w-[90%] max-w-sm p-8 shadow-xl text-center mb-8 border-[6px] border-white">
-        <h3 className="text-[#2D5A8E] font-bold text-xl mb-2">Today's balance</h3>
-        <p className="text-[#E55C5C] text-5xl font-black italic tracking-tighter">
-          -111,000 THB
+      <div
+        className="bg-white rounded-[40px]
+                w-[90%] 
+                max-w-sm
+                sm:max-w-md 
+      p-8 shadow-figma text-center"
+      >
+        {isToday ? (
+          <h3 className="text-[#295F8D] text-[25px] mb-2">Today's balance</h3>
+        ) : (
+          <>
+            <h3 className="text-[#295F8D] text-[20px] mb-1">Balance on</h3>
+            <h2 className="text-[#295F8D] text-[28px] mb-2">
+              {formatDate(date)}
+            </h2>
+          </>
+        )}
+
+        <p
+          className={`text-[55px] tracking-tighter 
+            ${balance >= 0 ? "text-[#37AD59]" : "text-[#E04847]"}`}
+        >
+          {balance.toLocaleString()} THB
         </p>
       </div>
 
       {/* Action Buttons */}
-      <div className="flex gap-4 mb-8">
-        <button 
-          onClick={() => navigate('/add-income')} // navigate to add-income
-          className="bg-[#4CAF50] text-white px-6 py-2 rounded-2xl font-black flex items-center shadow-lg hover:scale-105 transition"
+      <div className="flex gap-4">
+        <button
+          onClick={() => navigate("/add-income", { state: { date } })} // navigate to add-income
+          className="px-5 py-1 bg-[#37AD59] text-white text-[25px]
+                    rounded-[14px] font-lilita shadow-figma 
+                    hover:scale-105 transition flex items-center "
         >
-          <span className="text-2xl mr-2">+</span> INCOME
+          <span
+            className="w-8 h-8 flex items-center justify-center 
+                          bg-white text-[#37AD59] 
+                          rounded-full mr-3"
+          >
+            +
+          </span>
+          INCOME
         </button>
-        <button 
-          onClick={() => navigate('/add-expense')} // navigate to add-expense
-          className="bg-[#E55C5C] text-white px-6 py-2 rounded-2xl font-black flex items-center shadow-lg hover:scale-105 transition"
+        <button
+          onClick={() => navigate("/add-expense", { state: { date } })} // navigate to add-expense
+          className="px-5 py-1 bg-[#E04847] text-white text-[25px]
+                    rounded-[14px] font-lilita shadow-figma 
+                    hover:scale-105 transition flex items-center"
         >
-          <span className="text-2xl mr-2">-</span> EXPENSE
+          <span
+            className="w-8 h-8 flex items-center justify-center 
+                          bg-white text-[#E04847] 
+                          rounded-full mr-3"
+          >
+            -
+          </span>{" "}
+          EXPENSE
         </button>
       </div>
 
       {/* Transaction List Container */}
-      <div className="bg-white rounded-[35px] w-[90%] max-w-sm p-6 shadow-lg">
-        <div className="space-y-5">
-          {[
-            { name: 'Mama', amount: '-20 THB', color: 'text-[#E55C5C]' },
-            { name: 'Car', amount: '-820,999 THB', color: 'text-[#E55C5C]' },
-            { name: 'Ice cream', amount: '-20 THB', color: 'text-[#E55C5C]' },
-            { name: 'Salary', amount: '+900,000 THB', color: 'text-[#4CAF50]' },
-          ].map((item, idx) => (
-            <div key={idx} className="flex justify-between items-center border-b border-gray-100 pb-2">
-              <span className="font-bold text-lg">{item.name}</span>
-              <div className="flex items-center gap-2">
-                <span className={`font-bold text-lg ${item.color}`}>{item.amount}</span>
-                <button className="text-gray-300 hover:text-red-500">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Logout Link */}
-      <button 
-        onClick={handleLogout}
-        className="mt-10 text-[#E55C5C] font-bold underline hover:text-red-700"
+      <div
+        className="bg-white rounded-[30px] 
+                w-[90%] 
+                max-w-sm 
+                sm:max-w-md
+                p-6 shadow-figma space-y-5"
       >
-        LOG OUT
-      </button>
+        {transactions.length === 0 && (
+          <p className="text-center text-gray-400">No transactions</p>
+        )}
+
+        {transactions.map((item) => (
+          <div
+            key={item.id}
+            className="flex justify-between items-center border-b border-gray-100 pb-2 text-lilita text-[25px]"
+          >
+            <span>{item.description}</span>
+
+            <div className="flex items-center gap-2">
+              <span
+                className={`${
+                  item.type === "income" ? "text-[#37AD59]" : "text-[#E04847]"
+                }`}
+              >
+                {item.type === "income" ? "+" : "-"}
+                {Number(item.amount).toLocaleString()} THB
+              </span>
+
+              <button
+                onClick={async () => {
+                  await transactionService.deleteTransaction(item.id);
+
+                  // รีโหลดใหม่หลังลบ
+                  const updated = await transactionService.getByDate(date);
+                  setTransactions(updated);
+                  setBalance(transactionService.calculateBalance(updated));
+                }}
+                className="px-2 py-1 bg-[#EEEEEE]
+                    rounded-[14px] font-lilita
+                    hover:scale-105 transition flex items-center"
+              >
+                <Trash2 size={25} className="text-gray-500" />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

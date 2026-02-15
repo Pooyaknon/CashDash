@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { transactionService } from '../services/transactionService'
+import { useLocation } from "react-router-dom";
 
 function AddIncome() {
   const navigate = useNavigate()
@@ -9,6 +10,10 @@ function AddIncome() {
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
   const [loading, setLoading] = useState(false)
+  const location = useLocation();
+  const selectedDate = location.state?.date || new Date().toLocaleDateString("en-CA", {
+    timeZone: "Asia/Bangkok",
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -21,9 +26,9 @@ function AddIncome() {
         description,
         amount: parseFloat(amount),
         type: 'income',
-        date: new Date().toISOString().split('T')[0]
+        date: selectedDate   
       })
-      navigate('/home') // บันทึกเสร็จกลับไปหน้า Home
+      navigate('/home', { state: { date: selectedDate } })// บันทึกเสร็จกลับไปหน้า Home
     } catch (error) {
       alert('Error saving income: ' + error.message)
     } finally {

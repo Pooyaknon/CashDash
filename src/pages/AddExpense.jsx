@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { transactionService } from '../services/transactionService'
+import { useLocation } from "react-router-dom";
 
 function AddExpense() {
   const navigate = useNavigate()
@@ -8,6 +9,10 @@ function AddExpense() {
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
   const [loading, setLoading] = useState(false)
+  const location = useLocation();
+  const selectedDate = location.state?.date || new Date().toLocaleDateString("en-CA", {
+    timeZone: "Asia/Bangkok",
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -20,9 +25,9 @@ function AddExpense() {
         description,
         amount: parseFloat(amount),
         type: 'expense',
-        date: new Date().toISOString().split('T')[0]
+        date: selectedDate
       })
-      navigate('/home')
+      navigate('/home', { state: { date: selectedDate } })
     } catch (error) {
       alert('Error saving expense: ' + error.message)
     } finally {
