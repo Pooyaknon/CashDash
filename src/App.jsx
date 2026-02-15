@@ -5,7 +5,7 @@ import ForgotPassword from './pages/ForgotPassword'
 import UpdatePassword from './pages/UpdatePassword'
 import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
-import AddTransaction from './pages/AddTransaction'
+import AddTransaction from './pages/AddExpense'
 import { Toaster } from 'react-hot-toast'
 
 function App() {
