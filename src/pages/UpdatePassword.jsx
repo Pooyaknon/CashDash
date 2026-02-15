@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { authService } from '../services/authService'
+import { useNavigate } from 'react-router-dom'
 import toast from "react-hot-toast";
 import logo from "../assets/logo.png";
 
 function UpdatePassword() {
   const [newPassword, setNewPassword] = useState('')
+  const navigate = useNavigate()
   const handleUpdate = async (e) => {
   e.preventDefault()
     try {
