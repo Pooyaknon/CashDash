@@ -5,7 +5,8 @@ import ForgotPassword from './pages/ForgotPassword'
 import UpdatePassword from './pages/UpdatePassword'
 import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
-import AddTransaction from './pages/AddExpense'
+import AddIncome from './pages/AddIncome'
+import AddExpense from './pages/AddExpense'
 import { Toaster } from 'react-hot-toast'
 
 function App() {
@@ -37,8 +38,9 @@ function App() {
         <Route element={<ProtectedRoute />}> 
           {/* หน้า Home */}
           <Route path="/home" element={<Home />} />
-          {/* หน้า Add Transaction */}
-          <Route path="/add-transaction" element={<AddTransaction />} />
+          {/* หน้า Add income & expense */}
+          <Route path="/add-income" element={<AddIncome />} />   
+          <Route path="/add-expense" element={<AddExpense />} /> 
         </Route>
       </Routes>
       </>

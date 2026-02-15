@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { authService } from '../services/authService'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import toast from "react-hot-toast";
 import logo from '../assets/logo.png'
 

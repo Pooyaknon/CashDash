@@ -63,10 +63,16 @@ function Home() {
 
       {/* Action Buttons */}
       <div className="flex gap-4 mb-8">
-        <button className="bg-[#4CAF50] text-white px-6 py-2 rounded-2xl font-black flex items-center shadow-lg hover:scale-105 transition">
+        <button 
+          onClick={() => navigate('/add-income')} // navigate to add-income
+          className="bg-[#4CAF50] text-white px-6 py-2 rounded-2xl font-black flex items-center shadow-lg hover:scale-105 transition"
+        >
           <span className="text-2xl mr-2">+</span> INCOME
         </button>
-        <button className="bg-[#E55C5C] text-white px-6 py-2 rounded-2xl font-black flex items-center shadow-lg hover:scale-105 transition">
+        <button 
+          onClick={() => navigate('/add-expense')} // navigate to add-expense
+          className="bg-[#E55C5C] text-white px-6 py-2 rounded-2xl font-black flex items-center shadow-lg hover:scale-105 transition"
+        >
           <span className="text-2xl mr-2">-</span> EXPENSE
         </button>
       </div>
