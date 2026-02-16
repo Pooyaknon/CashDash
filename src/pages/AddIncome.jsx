@@ -5,8 +5,6 @@ import { useLocation } from "react-router-dom";
 
 function AddIncome() {
   const navigate = useNavigate()
-  
-  // State สำหรับเก็บข้อมูลฟอร์ม
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
   const [loading, setLoading] = useState(false)
@@ -37,38 +35,40 @@ function AddIncome() {
   }
 
   return (
-    <div className="min-h-screen bg-[#D1E9FF] flex flex-col items-center justify-center font-sans p-4">
-      <div className="bg-white rounded-[40px] w-full max-w-sm p-8 shadow-2xl text-center relative">
+    <div className="min-h-screen flex flex-col items-center justify-center font-lilita p-4 border
+                      bg-[radial-gradient(circle_at_center,_#E9F7FF_0%,_#CDEBFF_60%,_#B8E0FF_100%)]">
+      {/* white card */}
+      <div className="bg-white rounded-[22px] w-full max-w-sm p-8 shadow-figma text-center relative">
         
-        <h2 className="text-[#2D5A8E] font-bold text-2xl mb-1">New Entry</h2>
-        <h1 className="font-black text-4xl uppercase mb-8 text-[#4CAF50]">
+        <h2 className="text-[#295F8D] text-[50px] mb-1">New Entry</h2>
+        <h1 className="text-[45px] mb-8 text-[#37AD59]">
           INCOME
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-6 text-left">
           <div>
-            <label className="block text-[#2D5A8E] font-bold text-lg mb-2">Description</label>
+            <label className=" text-[#7194B3] text-[25px] mb-2">Description</label>
             <input
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="e.g. Salary, Bonus"
-              className="w-full bg-gray-50 rounded-xl px-4 py-3 text-gray-700 font-bold outline-none border-2 border-transparent focus:border-green-300 transition"
+              className="w-full bg-gray-50 rounded-xl px-4 py-3 text-[#000000] outline-none border-2 border-transparent focus:border-green-300 transition"
               autoFocus
             />
           </div>
 
           <div>
-            <label className="block text-[#2D5A8E] font-bold text-lg mb-2">Amount</label>
+            <label className=" text-[#7194B3] text-[25px] mb-2">Amount</label>
             <div className="relative">
               <input
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                className="w-full bg-gray-50 rounded-xl px-4 py-3 text-gray-700 font-bold outline-none border-2 border-transparent focus:border-green-300 transition"
+                className="w-full bg-gray-50 rounded-xl px-4 py-3 text-[#000000] outline-none border-2 border-transparent focus:border-green-300 transition"
               />
-              <span className="absolute right-4 top-3 text-gray-400 font-bold">THB</span>
+              <span className="absolute right-4 top-3 text-[#000000]">THB</span>
             </div>
           </div>
 
@@ -76,7 +76,7 @@ function AddIncome() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#4CAF50] text-white py-3 rounded-2xl font-black text-xl shadow-lg hover:brightness-110 transition transform active:scale-95"
+              className="w-full bg-[#37AD59] text-white py-3 rounded-2xl text-[20px] shadow-figma hover:brightness-110 transition transform active:scale-95"
             >
               {loading ? 'Saving...' : 'Save'}
             </button>
@@ -84,7 +84,7 @@ function AddIncome() {
             <button
               type="button"
               onClick={() => navigate('/home')}
-              className="w-full bg-white border-2 border-gray-200 text-gray-500 py-3 rounded-2xl font-bold text-xl hover:bg-gray-50 transition"
+              className="w-full bg-white border-2 border-gray-200 text-gray-500 py-3 rounded-2xl text-xl hover:bg-gray-50 transition"
             >
               Cancel
             </button>
