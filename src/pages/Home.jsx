@@ -27,6 +27,7 @@ function Home() {
     return new Date(dateString).toLocaleDateString("en-GB", options);
   };
   const dateInputRef = useRef(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   useEffect(() => {
     async function getProfile() {
@@ -265,14 +266,7 @@ function Home() {
               </span>
 
               <button
-                onClick={async () => {
-                  await transactionService.deleteTransaction(item.id);
-
-                  // รีโหลดใหม่หลังลบ
-                  const updated = await transactionService.getByDate(date);
-                  setTransactions(updated);
-                  setBalance(transactionService.calculateBalance(updated));
-                }}
+                onClick={() => setDeleteTarget(item)}
                 className="px-2 py-1 bg-[#EEEEEE]
                     rounded-[14px] font-lilita
                     hover:scale-105 transition flex items-center"
@@ -283,6 +277,99 @@ function Home() {
           </div>
         ))}
       </div>
+
+      {deleteTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Overlay */}
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            onClick={() => setDeleteTarget(null)}
+          />
+
+          {/* Modal */}
+          <div className="relative bg-[#F2F2F2] rounded-[25px] p-6 w-[90%] max-w-sm shadow-figma text-center z-10">
+            <h2 className="text-[35px] text-[#000000] mb-4">
+              Delete Transaction ?
+            </h2>
+
+            {/* Transaction Preview */}
+            <div
+              className={`rounded-2xl p-4 mb-4 bg-white border-2
+                ${
+                  deleteTarget.type === "income"
+                    ? "border-[#37AD59]"
+                    : "border-[#E04847]"
+                }
+              `}
+            >
+              {/* Type Label */}
+              <div
+                className={`text-[20px] font-bold mb-2
+                  ${
+                    deleteTarget.type === "income"
+                      ? "text-[#37AD59]"
+                      : "text-[#E04847]"
+                  }
+                `}
+              >
+                {deleteTarget.type === "income" ? "INCOME :" : "EXPENSE :"}
+              </div>
+
+              {/* Description + Amount */}
+              <div className="flex justify-between items-center text-[25px]">
+                <span>{deleteTarget.description}</span>
+
+                <span
+                  className={`font-bold
+                    ${
+                      deleteTarget.type === "income"
+                        ? "text-[#37AD59]"
+                        : "text-[#E04847]"
+                    }
+                  `}
+                >
+                  {deleteTarget.type === "income" ? "+" : "-"}
+                  {Number(deleteTarget.amount).toLocaleString()} THB
+                </span>
+              </div>
+            </div>
+
+            <p className="text-[#000000] text-[15px] mb-6">
+              Are you sure you want to delete this transaction?
+            </p>
+
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => setDeleteTarget(null)}
+                className="px-5 py-1 bg-white rounded-xl text-[20px] shadow-figma hover:scale-105 transition"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={async () => {
+                  await transactionService.deleteTransaction(deleteTarget.id);
+
+                  const updated = await transactionService.getByDate(date);
+                  setTransactions(updated);
+                  setBalance(transactionService.calculateBalance(updated));
+
+                  setDeleteTarget(null);
+                }}
+                className={`px-5 py-1 rounded-xl text-white text-[20px] shadow-figma hover:scale-105 transition
+                  ${
+                    deleteTarget.type === "income"
+                      ? "bg-[#37AD59]"
+                      : "bg-[#E04847]"
+                  }
+                `}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
