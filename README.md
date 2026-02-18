@@ -1,59 +1,95 @@
-# 💰 CashDash - Smart Expenses & Budget Tracker
+# CashDash - Smart Expense & Budget Tracker
 
-**CashDash** คือระบบจัดการรายรับ-รายจ่ายอัจฉริยะที่ช่วยให้คุณวางแผนการเงินได้อย่างมีประสิทธิภาพ พัฒนาขึ้นภายใต้โครงสร้างที่ทันสมัยและขยายผลได้ง่าย
+**CashDash** is a high-performance personal finance management application designed to help users track their income and expenses with ease. Built with modern web technologies, it provides a secure, real-time experience for managing daily financial activities.
 
-## ✨ Features (Sprint 1-2)
-- **Authentication System:** ระบบสมัครสมาชิกและเข้าสู่ระบบผ่านอีเมล
-- **Personal Profiles:** เก็บข้อมูลผู้ใช้งานแยกส่วนบุคคลด้วย Supabase Profiles
-- **Real-time Balance:** แสดงยอดเงินคงเหลือปัจจุบันพร้อมดีไซน์ที่ชัดเจน
-- **Transaction History:** ระบบบันทึกและแสดงรายการธุรกรรม (Income/Expense)
+---
 
-## 🛠 Tech Stack
-- **Frontend:** React.js + Vite
-- **Styling:** Tailwind CSS
-- **Backend/Database:** Supabase
-- **Email Service:** Resend (Custom SMTP)
+## Key Features
+- **Secure Authentication:** Full user lifecycle management including Sign Up, Login, and Password Recovery (Forgot/Update Password) using Supabase Auth.
+- **Personalized Data:** Each user has a private profile, ensuring financial records are isolated and secure.
+- **Transaction Management:** - Add Income and Expenses with descriptions, categories, and timestamps.
+  - Quick-delete functionality for inaccurate entries.
+- **Dynamic Dashboard:** Real-time balance calculation and daily transaction summaries.
+- **Historical Insights:** A calendar-integrated view to navigate through previous spending and earning history.
+- **Responsive Design:** Fully optimized for both desktop and mobile browsing.
 
-## 📂 Project Structure
-```text
+---
+
+## Tech Stack
+- **Frontend:** [React.js](https://react.dev/) (Vite)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Backend-as-a-Service:** [Supabase](https://supabase.com/) (PostgreSQL Database & Auth)
+- **Routing:** [React Router DOM](https://reactrouter.com/) (v7)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Notifications:** [React Hot Toast](https://react-hot-toast.com/)
+
+---
+
+## Project Structure
+```
 src/
-├── components/   # ส่วนประกอบย่อย (UI Components)
-├── pages/        # หน้าหลัก (Home, Login, SignUp, etc.)
-├── services/     # การเชื่อมต่อ Supabase & Auth
-└── styles/       # ไฟล์ CSS & Tailwind
+├── assets/         # Project logos and static images
+├── components/     # Reusable UI components (e.g., ProtectedRoute for Auth guards)
+├── pages/          # Main views: Home, Login, SignUp, AddIncome, AddExpense, etc.
+├── services/       # API logic: Supabase client, authService, and transactionService
+├── styles/         # Global CSS and Tailwind styling
+└── main.jsx        # Application bootstrap and entry point
+
 ```
 
-## 🚀 How to Start (For Team Members)
+---
 
-After cloning the repository, please follow these 3 steps to set up the project on your local machine:
+## Installation & Getting Started
 
-### 1. Install Dependencies
-Since the `node_modules` folder is ignored by Git to keep the repository lightweight, you must download all necessary libraries (React, Tailwind CSS, Supabase SDK, etc.) by running:
+To set up the project locally after pulling the latest changes, please follow these steps:
+
+### 1. Clone & Pull
+
+After you `git pull` or clone the repository to your local machine:
+
+### 2. Install Dependencies (Mandatory)
+
+Since the `node_modules` folder is not included in the repository, **you must run the following command** to install all necessary libraries:
+
 ```bash
+# Install all required packages
 npm install
+
 ```
-2. Environment Configuration
-The project requires connection keys to communicate with our shared Supabase database.
-- Create a new file named .env.local in the root directory.
-- Add the following keys (Please contact the project owner for the actual values):
+
+### 3. Environment Variables
+
+Create a file named `.env.local` in the root directory. Copy the keys from `.env.example` and fill in your Supabase credentials:
+
+```env
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+
 ```
-VITE_SUPABASE_URL=supabase_url  
-VITE_SUPABASE_ANON_KEY=upabase_anon_key
-```
-3. Run the Project
-Once the installation and configuration are complete, start the development server to preview the app:
+
+### 4. Run Development Server
+
+Once the installation is complete, start the app:
+
 ```bash
+# Start the local development server
 npm run dev
+
 ```
-### คำแนะนำ:
-* **Database Awareness:** การแก้ไขข้อมูลผ่าน Supabase Dashboard จะส่งผลถึงทุกคนในทีม
-* **Branching Reminder:** แนะนำให้ Checkout ไปยัง Branch ที่แบ่งตามฟีเจอร์ เช่น `feat/fe-...` หรือ `feat/be-...` ก่อนเริ่มเขียนโค้ด
-<<<<<<< HEAD
-* **Node version:**ต้องใช้ node version 22.0.0 ขึ้นไป
-=======
-<<<<<<< HEAD
-* **Node version:** ต้องใช้ node version 22.0.0 ขึ้นไป
-=======
-* **Node version:**ต้องใช้ node version 22.0.0 ขึ้นไป
->>>>>>> origin/develop
->>>>>>> feat/be-transac
+
+Access the application at: `http://localhost:5173`
+
+---
+
+## ⚠️ Important Guidelines for Developers
+
+* **Node.js Version:** Please ensure you are using Node.js version **22.12.0** (check `.nvmrc`).
+* **Database Integrity:** Actions performed in the development environment directly affect the live Supabase database. Exercise caution when deleting records.
+* **Best Practices:** * Always run `npm install` after pulling new changes to ensure your local environment is up-to-date with new packages.
+* Create feature branches for new updates (`feat/your-feature`) before merging into the main branch.
+
+
+
+---
+
+*Created and maintained by the CashDash Team.*
