@@ -3,7 +3,7 @@ import { supabase } from "../services/supabaseClient";
 import { authService } from "../services/authService";
 import { useNavigate, useLocation } from "react-router-dom";
 import { transactionService } from "../services/transactionService";
-import { ChevronDown, Trash2, ArrowLeft } from "lucide-react";
+import { ChevronDown, Trash2, ArrowLeft, BarChart3} from "lucide-react";
 
 function Home() {
   const [username, setUsername] = useState("Loading...");
@@ -149,29 +149,39 @@ function Home() {
           </button>
         )}
 
-        {/* Calendar */}
-        <div className="relative">
-          {/* ปุ่มแสดงผล */}
+        {/* ด้านขวา */}
+        <div className="flex items-center gap-3">
+          {/* Overview Button */}
           <button
-            onClick={() => dateInputRef.current?.showPicker()}
-            className="bg-white text-[#295F8D] 
-                      px-4 py-1 rounded-xl
-                      font-lilita text-[20px] 
-                      shadow-figma hover:scale-105 
-                      transition flex items-center gap-2"
+            onClick={() => navigate("/Overview")}
+            className="bg-white p-2 rounded-xl shadow-figma hover:scale-105 transition"
           >
-            More Date
-            <ChevronDown size={20} />
+            <BarChart3 size={20} className="text-[#295F8D]" />
           </button>
+          {/* Calendar */}
+          <div className="relative">
+            {/* ปุ่มแสดงผล */}
+            <button
+              onClick={() => dateInputRef.current?.showPicker()}
+              className="bg-white text-[#295F8D] 
+                        px-4 py-1 rounded-xl
+                        font-lilita text-[20px] 
+                        shadow-figma hover:scale-105 
+                        transition flex items-center gap-2"
+            >
+              More Date
+              <ChevronDown size={20} />
+            </button>
 
-          {/* input จริง (ซ่อน) */}
-          <input
-            ref={dateInputRef}
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="absolute inset-0 opacity-0 pointer-events-none"
-          />
+            {/* input จริง (ซ่อน) */}
+            <input
+              ref={dateInputRef}
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="absolute inset-0 opacity-0 pointer-events-none"
+            />
+          </div>
         </div>
       </div>
 
