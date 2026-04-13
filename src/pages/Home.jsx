@@ -3,11 +3,7 @@ import { supabase } from "../services/supabaseClient";
 import { authService } from "../services/authService";
 import { useNavigate, useLocation } from "react-router-dom";
 import { transactionService } from "../services/transactionService";
-<<<<<<< Updated upstream
-import { ChevronDown, Trash2, ArrowLeft } from "lucide-react";
-=======
 import { ChevronDown, Trash2, ArrowLeft, BarChart3 } from "lucide-react";
->>>>>>> Stashed changes
 
 function Home() {
   const [dark, setDark] = useState(() => localStorage.getItem("theme") === "dark");
@@ -153,31 +149,10 @@ function Home() {
           </button>
         )}
 
-        {/* Calendar */}
-        <div className="relative">
-          {/* ปุ่มแสดงผล */}
+        {/* ด้านขวา */}
+        <div className="flex items-center gap-3">
+          {/* Overview Button */}
           <button
-<<<<<<< Updated upstream
-            onClick={() => dateInputRef.current?.showPicker()}
-            className="bg-white text-[#295F8D] 
-                      px-4 py-1 rounded-xl
-                      font-lilita text-[20px] 
-                      shadow-figma hover:scale-105 
-                      transition flex items-center gap-2"
-          >
-            More Date
-            <ChevronDown size={20} />
-          </button>
-
-          {/* input จริง (ซ่อน) */}
-          <input
-            ref={dateInputRef}
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="absolute inset-0 opacity-0 pointer-events-none"
-          />
-=======
             onClick={() => navigate("/Overview")}
             className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 p-2 rounded-xl shadow-figma hover:scale-105 transition"
           >
@@ -205,7 +180,6 @@ function Home() {
               className="absolute inset-0 opacity-0 pointer-events-none"
             />
           </div>
->>>>>>> Stashed changes
         </div>
       </div>
 
