@@ -153,7 +153,7 @@ function Home() {
         <div className="flex items-center gap-3">
           {/* Overview Button */}
           <button
-            onClick={() => navigate("/Overview")}
+            onClick={() => navigate("/overview")}
             className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 p-2 rounded-xl shadow-figma hover:scale-105 transition"
           >
             <BarChart3 size={20} className="text-[#295F8D] dark:text-gray-100" />

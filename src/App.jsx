@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import AddIncome from './pages/AddIncome'
 import AddExpense from './pages/AddExpense'
+import Overview from './pages/Overview'
 import { Toaster } from 'react-hot-toast'
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
         <Route element={<ProtectedRoute />}> 
           {/* หน้า Home */}
           <Route path="/home" element={<Home />} />
+          <Route path="/overview" element={<Overview />} />
           {/* หน้า Add income & expense */}
           <Route path="/add-income" element={<AddIncome />} />   
           <Route path="/add-expense" element={<AddExpense />} /> 
