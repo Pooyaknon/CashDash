@@ -10,20 +10,23 @@ import AddExpense from './pages/AddExpense'
 import { Toaster } from 'react-hot-toast'
 
 function App() {
+  const dark = document.documentElement.classList.contains('dark')
+
   return (
-      <>
-        {/* Toast notification (global) */}
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 3000,
-            style: {
-              borderRadius: '12px',
-              background: '#ffffff',
-              color: '#1f2937',
-            },
-          }}
-        />
+    <>
+      {/* Toast notification (global) */}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            borderRadius: '12px',
+            background: dark ? '#1f2937' : '#ffffff',
+            color: dark ? '#f9fafb' : '#1f2937',
+            border: dark ? '1px solid #374151' : '1px solid #e5e7eb',
+          },
+        }}
+      />
 
       <Routes>
         {/* หน้าแรกไปที่ Login*/}
@@ -43,8 +46,7 @@ function App() {
           <Route path="/add-expense" element={<AddExpense />} /> 
         </Route>
       </Routes>
-      </>
-      
+    </>
   )
 }
 

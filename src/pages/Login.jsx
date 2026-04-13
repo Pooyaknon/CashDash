@@ -32,16 +32,16 @@ function Login() {
 
   return (
     
-    <div className="min-h-screen flex items-center justify-center bg-[#E9F5FF]">
+    <div className="min-h-screen flex items-center justify-center bg-[#E9F5FF] dark:bg-gray-900">
       {/* Card for login */}
       <div className="max-w-md w-full p-12 flex flex-col items-center">
         <img src={logo} alt="CashDash Logo" className="w-[120px] h-[120px] mx-auto mb-4"/>
         {/* Name of web */}
         <div className="text-center mb-2 ">
-          <h1 className="font-lilita text-[55px] text-[#295F8D]">
+          <h1 className="font-lilita text-[55px] text-[#295F8D] dark:text-[#295F8D]">
             CashDash
           </h1>
-          <p className="font-lilita text-[50px] text-[#295F8D]">
+          <p className="font-lilita text-[50px] text-[#295F8D] dark:text-[#295F8D]">
             Login
           </p>
         </div>
@@ -68,7 +68,7 @@ function Login() {
           </div>
           {/* forgot pass */}
           <p className="text-[14px] text-right">
-            <Link to="/forgot-password" disable className="text-[#295F8D] hover:underline">Forgot password?</Link>
+            <Link to="/forgot-password" className="text-[#295F8D] dark:text-[#e6edf3] hover:underline">Forgot password?</Link>
           </p>
 
           {/* submit btn  */}
@@ -86,8 +86,9 @@ function Login() {
 
         {/* Register  */}
         <div className="mt-6 text-center space-y-2">
-          <p className="text-[15px]">
-            Don't have an account? <Link to="/signup" className="text-[#295F8D] hover:underline">Register here</Link>
+          <p className="text-[15px] dark:text-[#A8A8A8] ">
+            Don't have an account? 
+            <Link to="/signup" className="text-[#295F8D] dark:text-[#e6edf3] hover:underline"> Register here</Link>
           </p>
           
         </div>

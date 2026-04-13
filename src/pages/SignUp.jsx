@@ -28,7 +28,7 @@ function SignUp() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#E9F5FF]">
+    <div className="min-h-screen flex items-center justify-center bg-[#E9F5FF] dark:bg-gray-900">
       {/* Card for Create */}
       <div className="max-w-md w-full p-12 flex flex-col items-center">
         <img
@@ -38,7 +38,7 @@ function SignUp() {
         />
         {/* Create Account */}
         <div className="text-center mb-2">
-          <h1 className="font-lilita text-[50px] text-[#295F8D]">
+          <h1 className="font-lilita text-[50px] text-[#295F8D] dark:text-[#295F8D]">
             Create Account
           </h1>
         </div>
@@ -98,9 +98,9 @@ function SignUp() {
         </form>
 
         {/* Login  */}
-        <p className="mt-6 text-center text-[15px]">
+        <p className="mt-6 text-center text-[15px] dark:text-[#a8a8a8]">
           Already have an account?{" "}
-          <Link to="/login" className="text-[#295F8D] hover:underline">
+          <Link to="/login" className="text-[#295F8D] dark:text-[#e6edf3] hover:underline">
             Login
           </Link>
         </p>

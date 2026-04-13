@@ -24,14 +24,14 @@ function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#E9F5FF] p-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#E9F5FF] dark:bg-gray-900 p-4">
       <div className="max-w-md w-full p-8">
         <img
           src={logo}
           alt="CashDash Logo"
           className="w-[120px] h-[120px] mx-auto mb-4"
         />
-        <h2 className="text-[50px] text-center text-[#295F8D] font-lilita mb-6">Forgot Password</h2>
+        <h2 className="text-[50px] text-center text-[#295F8D] dark:text-[#e6edf3] font-lilita mb-6">Forgot Password</h2>
 
           {/* fill format */}
           <form onSubmit={handleResetRequest} className="space-y-4 w-full max-w-[322px] mx-auto">
