@@ -22,14 +22,14 @@ function UpdatePassword() {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#E9F5FF] p-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#E9F5FF] dark:bg-gray-900 p-4">
       <form onSubmit={handleUpdate} className="max-w-[400px] space-y-4 w-full max-w-[322px] mx-auto">
         <img
           src={logo}
           alt="CashDash Logo"
           className="w-[120px] h-[120px] mx-auto mb-4"
         />
-        <div className="text-[50px] text-center text-[#295F8D] font-lilita mb-6">
+        <div className="text-[50px] text-center text-[#295F8D] dark:text-[#295F8D] font-lilita mb-6">
           <span className="block md:inline">Set New</span>{' '}
           <span className="block md:inline">Password</span>
         </div>

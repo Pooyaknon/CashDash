@@ -1,31 +1,22 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { transactionService } from '../services/transactionService'
-import { useLocation } from "react-router-dom";
 
 function AddIncome() {
   const navigate = useNavigate()
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
   const [loading, setLoading] = useState(false)
-  const location = useLocation();
-  const selectedDate = location.state?.date || new Date().toLocaleDateString("en-CA", {
-    timeZone: "Asia/Bangkok",
-  });
+  const location = useLocation()
+  const selectedDate = location.state?.date || new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!description || !amount) return alert('Please fill in all fields')
-
     setLoading(true)
     try {
       // บันทึกข้อมูล โดยระบุ type เป็น 'income' เสมอ
-      await transactionService.addTransaction({
-        description,
-        amount: parseFloat(amount),
-        type: 'income',
-        date: selectedDate   
-      })
+      await transactionService.addTransaction({ description, amount: parseFloat(amount), type: 'income', date: selectedDate })
       navigate('/home', { state: { date: selectedDate } })// บันทึกเสร็จกลับไปหน้า Home
     } catch (error) {
       alert('Error saving income: ' + error.message)
@@ -35,40 +26,37 @@ function AddIncome() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center font-lilita p-4 border
-                      bg-[radial-gradient(circle_at_center,_#E9F7FF_0%,_#CDEBFF_60%,_#B8E0FF_100%)]">
-      {/* white card */}
-      <div className="bg-white rounded-[22px] w-full max-w-sm p-8 shadow-figma text-center relative">
-        
-        <h2 className="text-[#295F8D] text-[50px] mb-1">New Entry</h2>
-        <h1 className="text-[45px] mb-8 text-[#37AD59]">
-          INCOME
-        </h1>
+    <div className="min-h-screen flex flex-col items-center justify-center font-lilita p-4
+                    bg-[radial-gradient(circle_at_center,_#E9F7FF_0%,_#CDEBFF_60%,_#B8E0FF_100%)]
+                    dark:bg-[radial-gradient(circle_at_center,_#111827_0%,_#111827_100%)]">
+      <div className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-[22px] w-full max-w-sm p-8 shadow-figma text-center">
+        <h2 className="text-[#295F8D] dark:text-[#FFFFFF] text-[50px] mb-1">New Entry</h2>
+        <h1 className="text-[45px] mb-8 text-[#37AD59]">INCOME</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6 text-left">
           <div>
-            <label className=" text-[#7194B3] text-[25px] mb-2">Description</label>
+            <label className="text-[#7194B3] dark:text-[#7194B3] text-[25px] mb-2 block">Description</label>
             <input
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="e.g. Salary, Bonus"
-              className="w-full bg-gray-50 rounded-xl px-4 py-3 text-[#000000] outline-none border-2 border-transparent focus:border-green-300 transition"
+              className="w-full bg-gray-50 dark:bg-[#233D58] dark:text-gray-100 dark:placeholder-gray-500 rounded-xl px-4 py-3 outline-none border-2 border-transparent focus:border-[#37AD59] transition"
               autoFocus
             />
           </div>
 
           <div>
-            <label className=" text-[#7194B3] text-[25px] mb-2">Amount</label>
+            <label className="text-[#7194B3] dark:text-[#7194B3] text-[25px] mb-2 block">Amount</label>
             <div className="relative">
               <input
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                className="w-full bg-gray-50 rounded-xl px-4 py-3 text-[#000000] outline-none border-2 border-transparent focus:border-green-300 transition"
+                className="w-full bg-gray-50 dark:bg-[#233D58] dark:text-gray-100 dark:placeholder-gray-500 rounded-xl px-4 py-3 pr-16 outline-none border-2 border-transparent focus:border-[#37AD59] transition"
               />
-              <span className="absolute right-4 top-3 text-[#000000]">THB</span>
+              <span className="absolute right-4 top-3 text-gray-400 dark:text-[#FFFFFF]">THB</span>
             </div>
           </div>
 
@@ -76,15 +64,14 @@ function AddIncome() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#37AD59] text-white py-3 rounded-2xl text-[20px] shadow-figma hover:brightness-110 transition transform active:scale-95"
+              className="w-full bg-[#37AD59] text-white py-3 rounded-2xl text-[20px] shadow-figma hover:brightness-110 transition active:scale-95"
             >
               {loading ? 'Saving...' : 'Save'}
             </button>
-            
             <button
               type="button"
               onClick={() => navigate('/home')}
-              className="w-full bg-white border-2 border-gray-200 text-gray-500 py-3 rounded-2xl text-xl hover:bg-gray-50 transition"
+              className="w-full bg-white dark:bg-[#1F2937] dark:border dark:border-gray-600 dark:text-[#FFFFFF] border-2 border-gray-200 text-gray-500 py-3 rounded-2xl text-xl hover:bg-gray-50 dark:hover:bg-gray-600 transition"
             >
               Cancel
             </button>
