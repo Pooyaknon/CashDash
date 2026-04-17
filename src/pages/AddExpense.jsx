@@ -6,6 +6,8 @@ function AddExpense() {
   const navigate = useNavigate()
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
+  const [category, setCategory] = useState('Other') 
+  const categories = ['Food', 'Travel', 'Shopping', 'Health', 'Bills', 'Borrow', 'Return', 'Delivery', 'Other']
   const [loading, setLoading] = useState(false)
   const location = useLocation()
   const selectedDate = location.state?.date || new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" })
@@ -16,7 +18,7 @@ function AddExpense() {
     setLoading(true)
     try {
       // บันทึกข้อมูล โดยระบุ type เป็น 'expense' เสมอ
-      await transactionService.addTransaction({ description, amount: parseFloat(amount), type: 'expense', date: selectedDate })
+      await transactionService.addTransaction({ description, amount: parseFloat(amount), type: 'expense', category,date: selectedDate })
       navigate('/home', { state: { date: selectedDate } })
     } catch (error) {
       alert('Error saving expense: ' + error.message)
@@ -58,6 +60,18 @@ function AddExpense() {
               />
               <span className="absolute right-4 top-3 text-gray-400 dark:text-[#FFFFFF]">THB</span>
             </div>
+          </div>
+
+          {/* Category Dropdown */}
+          <div>
+            <label className="text-[#7194B3] dark:text-[#7194B3] text-[25px] mb-2 block">Category</label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full bg-gray-50 dark:bg-[#233D58] dark:text-gray-100 rounded-xl px-4 py-3 outline-none border-2 border-transparent focus:border-[#E04847] transition appearance-none"
+            >
+              {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+            </select>
           </div>
 
           <div className="pt-4 flex flex-col gap-3">

@@ -23,7 +23,7 @@ export const transactionService = {
   // create item
   async addTransaction({ description, amount, type, date }) {
     try {
-      // ตรวจสอบ User
+      // check user login
       const { data: { user }, error: authError } = await supabase.auth.getUser();
       
       if (authError || !user) {
@@ -36,7 +36,8 @@ export const transactionService = {
           user_id: user.id,
           description: description || "",
           amount: parseFloat(amount) || 0,
-          type: type || 'expense', // ค่าเริ่มต้นเป็นรายจ่าย
+          type: type || 'expense', // default to 'expense' if type is not provided
+          category: category || 'Other', // default to 'Other' if category is not provided
           date: date || new Date().toISOString().split('T')[0]
         }])
         .select();
