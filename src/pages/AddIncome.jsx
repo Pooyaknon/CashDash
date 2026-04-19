@@ -7,7 +7,7 @@ function AddIncome() {
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
   const [category, setCategory] = useState('Other') 
-  const categories = ['Salary', 'Bonus', 'Gift', 'Borrow', 'Return', 'Other']
+  const categories = ['Salary', 'Allowance', 'Bonus', 'Investment', 'Gift', 'Borrow', 'Return', 'Other'];
   const [loading, setLoading] = useState(false)
   const location = useLocation()
   const selectedDate = location.state?.date || new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" })

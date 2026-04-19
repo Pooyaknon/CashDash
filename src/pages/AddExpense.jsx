@@ -7,7 +7,7 @@ function AddExpense() {
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
   const [category, setCategory] = useState('Other') 
-  const categories = ['Food', 'Travel', 'Shopping', 'Health', 'Bills', 'Borrow', 'Return', 'Delivery', 'Other']
+  const categories = ['Food', 'Housing', 'Travel', 'Education', 'Bills', 'Shopping', 'Entertainment', 'Health', 'Delivery', 'Borrow', 'Return', 'Other']
   const [loading, setLoading] = useState(false)
   const location = useLocation()
   const selectedDate = location.state?.date || new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" })
