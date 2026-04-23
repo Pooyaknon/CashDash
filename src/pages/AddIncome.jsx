@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { transactionService } from '../services/transactionService'
+import { INCOME_CATEGORIES } from '../config/categories'
+import { ChevronDown } from 'lucide-react'
+import CategoryBadge from '../components/CategoryBadge'
 
 function AddIncome() {
   const navigate = useNavigate()
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
-  const [category, setCategory] = useState('Other') 
-  const categories = ['Salary', 'Allowance', 'Bonus', 'Investment', 'Gift', 'Borrow', 'Return', 'Other'];
+  const [category, setCategory] = useState('Other')
+  const [dropdownOpen, setDropdownOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const location = useLocation()
   const selectedDate = location.state?.date || new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" })
@@ -31,6 +34,7 @@ function AddIncome() {
     <div className="min-h-screen flex flex-col items-center justify-center font-lilita p-4
                     bg-[radial-gradient(circle_at_center,_#E9F7FF_0%,_#CDEBFF_60%,_#B8E0FF_100%)]
                     dark:bg-[radial-gradient(circle_at_center,_#111827_0%,_#111827_100%)]">
+      {/* white card */}
       <div className="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-[22px] w-full max-w-sm p-8 shadow-figma text-center">
         <h2 className="text-[#295F8D] dark:text-[#FFFFFF] text-[50px] mb-1">New Entry</h2>
         <h1 className="text-[45px] mb-8 text-[#37AD59]">INCOME</h1>
@@ -63,15 +67,38 @@ function AddIncome() {
           </div>
 
           {/* Category Dropdown */}
-          <div>
+          <div className="relative">
             <label className="text-[#7194B3] dark:text-[#7194B3] text-[25px] mb-2 block">Category</label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full bg-gray-50 dark:bg-[#233D58] dark:text-gray-100 rounded-xl px-4 py-3 outline-none border-2 border-transparent focus:border-[#37AD59] transition appearance-none"
+
+            {/* Selected value */}
+            <button
+              type="button"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="w-full bg-gray-50 dark:bg-[#233D58] dark:text-gray-100 dark:placeholder-gray-500 rounded-xl px-4 py-3 outline-none border-2 border-transparent focus:border-[#37AD59] transition flex items-center justify-between"
             >
-              {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-            </select>
+              <span>{category}</span>
+              <div className="flex items-center gap-2">
+                <CategoryBadge category={category} />
+                <ChevronDown size={18} className={`transition-transform text-gray-400 ${dropdownOpen ? 'rotate-180' : ''}`} />
+              </div>
+            </button>
+
+            {/* Dropdown list */}
+            {dropdownOpen && (
+              <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#233D58] rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 max-h-52 overflow-y-auto">
+                {INCOME_CATEGORIES.map(cat => (
+                  <button
+                    key={cat.name}
+                    type="button"
+                    onClick={() => { setCategory(cat.name); setDropdownOpen(false) }}
+                    className="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 transition text-[18px] text-gray-800 dark:text-gray-100"
+                  >
+                    <span>{cat.name}</span>
+                    <CategoryBadge category={cat.name} size="sm" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="pt-4 flex flex-col gap-3">
@@ -85,7 +112,7 @@ function AddIncome() {
             <button
               type="button"
               onClick={() => navigate('/home')}
-              className="w-full bg-white dark:bg-[#1F2937] dark:border dark:border-gray-600 dark:text-[#FFFFFF] border-2 border-gray-200 text-gray-500 py-3 rounded-2xl text-xl hover:bg-gray-50 dark:hover:bg-gray-600 transition"
+              className="w-full dark:border bg-white dark:bg-[#1F2937] dark:border dark:border-gray-600 dark:text-[#FFFFFF] border-2 border-gray-200 text-gray-500 py-3 rounded-2xl text-xl hover:bg-gray-50 dark:hover:bg-gray-600 transition"
             >
               Cancel
             </button>

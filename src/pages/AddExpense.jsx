@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { transactionService } from '../services/transactionService'
+import { EXPENSE_CATEGORIES  } from '../config/categories'
+import { ChevronDown } from 'lucide-react'
+import CategoryBadge from '../components/CategoryBadge'
 
 function AddExpense() {
   const navigate = useNavigate()
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
-  const [category, setCategory] = useState('Other') 
-  const categories = ['Food', 'Housing', 'Travel', 'Education', 'Bills', 'Shopping', 'Entertainment', 'Health', 'Delivery', 'Borrow', 'Return', 'Other']
+  const [category, setCategory] = useState('Other')
+  const [dropdownOpen, setDropdownOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const location = useLocation()
   const selectedDate = location.state?.date || new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" })
@@ -18,7 +21,7 @@ function AddExpense() {
     setLoading(true)
     try {
       // บันทึกข้อมูล โดยระบุ type เป็น 'expense' เสมอ
-      await transactionService.addTransaction({ description, amount: parseFloat(amount), type: 'expense', category,date: selectedDate })
+      await transactionService.addTransaction({ description, amount: parseFloat(amount), type: 'expense', category, date: selectedDate })
       navigate('/home', { state: { date: selectedDate } })
     } catch (error) {
       alert('Error saving expense: ' + error.message)
@@ -63,15 +66,38 @@ function AddExpense() {
           </div>
 
           {/* Category Dropdown */}
-          <div>
+          <div className="relative">
             <label className="text-[#7194B3] dark:text-[#7194B3] text-[25px] mb-2 block">Category</label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full bg-gray-50 dark:bg-[#233D58] dark:text-gray-100 rounded-xl px-4 py-3 outline-none border-2 border-transparent focus:border-[#E04847] transition appearance-none"
+
+            {/* Selected value */}
+            <button
+              type="button"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="w-full bg-gray-50 dark:bg-[#233D58] dark:text-gray-100 dark:placeholder-gray-500 rounded-xl px-4 py-3 outline-none border-2 border-transparent focus:border-[#E04847] transition flex items-center justify-between"
             >
-              {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-            </select>
+              <span>{category}</span>
+              <div className="flex items-center gap-2">
+                <CategoryBadge category={category} />
+                <ChevronDown size={18} className={`transition-transform text-gray-400 ${dropdownOpen ? 'rotate-180' : ''}`} />
+              </div>
+            </button>
+
+            {/* Dropdown list */}
+            {dropdownOpen && (
+              <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#233D58] rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 max-h-52 overflow-y-auto">
+                {EXPENSE_CATEGORIES .map(cat => (
+                  <button
+                    key={cat.name}
+                    type="button"
+                    onClick={() => { setCategory(cat.name); setDropdownOpen(false) }}
+                    className="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 transition text-[18px] text-gray-800 dark:text-gray-100"
+                  >
+                    <span>{cat.name}</span>
+                    <CategoryBadge category={cat.name} size="sm" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="pt-4 flex flex-col gap-3">
