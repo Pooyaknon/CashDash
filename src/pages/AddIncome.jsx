@@ -85,7 +85,7 @@ function AddIncome() {
 
             {/* Dropdown list */}
             {dropdownOpen && (
-              <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#233D58] rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 max-h-52 overflow-y-auto">
+              <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#233D58] rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 max-h-52 overflow-y-auto category-scroll">
                 {INCOME_CATEGORIES.map(cat => (
                   <button
                     key={cat.name}
