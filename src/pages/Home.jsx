@@ -4,6 +4,7 @@ import { authService } from "../services/authService";
 import { useNavigate, useLocation } from "react-router-dom";
 import { transactionService } from "../services/transactionService";
 import { ChevronDown, Trash2, ArrowLeft, BarChart3 } from "lucide-react";
+import CategoryBadge from "../components/CategoryBadge";
 
 function Home() {
   const [dark, setDark] = useState(() => localStorage.getItem("theme") === "dark");
@@ -225,7 +226,10 @@ function Home() {
             key={item.id}
             className="flex justify-between items-center border-b border-gray-100 dark:border-gray-700 pb-2 text-[25px]"
           >
-            <span className="text-black dark:text-gray-100">{item.description}</span>
+            <span className="text-black dark:text-gray-100 flex items-center gap-2">
+                <CategoryBadge category={item.category} size="sm" />
+                {item.description}
+              </span>
             <div className="flex items-center gap-2">
               <span className={item.type === "income" ? "text-[#37AD59]" : "text-[#E04847]"}>
                 {item.type === "income" ? "+" : "-"}
@@ -245,7 +249,7 @@ function Home() {
       {/* Delete Modal */}
       {deleteTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setDeleteTarget(null)} />
+          <div className="absolute inset-0 bg-black/50" onClick={() => setDeleteTarget(null)} />
           <div className="relative bg-[#F2F2F2] dark:bg-gray-800 dark:border dark:border-gray-700 rounded-[25px] p-6 w-[90%] max-w-sm shadow-figma text-center z-10">
             <h2 className="text-[35px] text-black dark:text-gray-100 mb-4">Delete Transaction?</h2>
 
@@ -254,7 +258,10 @@ function Home() {
                 {deleteTarget.type === "income" ? "INCOME :" : "EXPENSE :"}
               </div>
               <div className="flex justify-between items-center text-[25px]">
-                <span className="text-black dark:text-gray-100">{deleteTarget.description}</span>
+                <span className="text-black dark:text-gray-100 flex items-center gap-2">
+                  <CategoryBadge category={deleteTarget.category} size="sm" />
+                  {deleteTarget.description}
+                </span>
                 <span className={`font-bold ${deleteTarget.type === "income" ? "text-[#37AD59]" : "text-[#E04847]"}`}>
                   {deleteTarget.type === "income" ? "+" : "-"}
                   {Number(deleteTarget.amount).toLocaleString()} THB
